@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HelloController {
     @GetMapping("/hello")
     public String hello(@RequestParam(name="name")String name, Model model){
-        System.out.println("666");
+        System.out.println("66");
         model.addAttribute("name",name);
         return "hello";
     }
