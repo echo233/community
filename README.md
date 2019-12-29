@@ -6,5 +6,6 @@
 [idea使用git](https://blog.csdn.net/qq_32154641/article/details/80420150)
 [bootstrap](https://v3.bootcss.com/getting-started)
 [githubOauth](https://developer.github.com/apps/building-oauth-apps/)
+[spring 内嵌database](https://docs.spring.io/spring-boot/docs/2.0.x/reference/htmlsingle/#boot-features-embedded-database-support)
 ## 工具
 https://git-scm.com/downloads
