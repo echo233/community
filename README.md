@@ -8,4 +8,5 @@
 [githubOauth](https://developer.github.com/apps/building-oauth-apps/)
 [spring 内嵌database](https://docs.spring.io/spring-boot/docs/2.0.x/reference/htmlsingle/#boot-features-embedded-database-support)
 ## 工具
-https://git-scm.com/downloads
+[git](https://git-scm.com/downloads)
+[flyway](https://flywaydb.org/getstarted/firststeps/maven#creating-the-first-migration)
