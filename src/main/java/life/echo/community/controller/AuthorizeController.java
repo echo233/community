@@ -44,7 +44,6 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(redirectUrl);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println(user);
         if (user != null && user.getId() != null) {
             User user1 = new User();
             String token = UUID.randomUUID().toString();
@@ -53,6 +52,8 @@ public class AuthorizeController {
             user1.setAccountId(user.getId()+"");
             user1.setGmtCreate(System.currentTimeMillis());
             user1.setGmtModified(user1.getGmtCreate());
+            user1.setAvatarUrl(user.getAvatarUrl());
+            System.out.println(user1.toString());
             userMapper.insert(user1);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";

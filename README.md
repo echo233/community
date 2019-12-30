@@ -10,3 +10,4 @@
 ## 工具
 [git](https://git-scm.com/downloads)
 [flyway](https://flywaydb.org/getstarted/firststeps/maven#creating-the-first-migration)
+[lombak](https://projectlombok.org/)
