@@ -1,7 +1,7 @@
 ## 社区项目
 ## 资料
 [spring文档](https://spring.io/guides)
-[thymeleaf模板](https://spring.io/guides/gs/serving-web-content/)
+[thymeleaf模板](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
 [github deployKey](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)
 [idea使用git](https://blog.csdn.net/qq_32154641/article/details/80420150)
 [bootstrap](https://v3.bootcss.com/getting-started)
