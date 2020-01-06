@@ -5,6 +5,7 @@ import life.echo.community.dto.GithubUser;
 import life.echo.community.mapper.UserMapper;
 import life.echo.community.model.User;
 import life.echo.community.provider.GithubProvider;
+import life.echo.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -50,15 +51,22 @@ public class AuthorizeController {
             user1.setToken(token);
             user1.setName(user.getName());
             user1.setAccountId(user.getId()+"");
-            user1.setGmtCreate(System.currentTimeMillis());
-            user1.setGmtModified(user1.getGmtCreate());
+
             user1.setAvatarUrl(user.getAvatarUrl());
-            System.out.println(user1.toString());
-            userMapper.insert(user1);
+            userService.createOrUpdate(user1);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";
         } else {
             return "redirect:/";
         }
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

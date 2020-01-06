@@ -1,16 +1,19 @@
 package life.echo.community.controller;
 
+import life.echo.community.dto.QuestionDTO;
 import life.echo.community.mapper.QuestionMapper;
-import life.echo.community.mapper.UserMapper;
 import life.echo.community.model.Question;
 import life.echo.community.model.User;
+import life.echo.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.jws.WebParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,9 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private QuestionService questionService;
+    @GetMapping("/publish/{id}")
+    public String publish(@PathVariable(name = "id") Integer id, Model model) {
+        QuestionDTO question = questionService.getById(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id", question.getId());
+        return "publish";
+    }
 
     @GetMapping("/publish")
     public String publish() {
@@ -31,6 +41,7 @@ public class PublishController {
             @RequestParam(value = "title", required=false) String title,
             @RequestParam(value = "description", required=false) String description,
             @RequestParam(value = "tag", required=false) String tag,
+            @RequestParam(value = "id", required = false)Integer id,
             HttpServletRequest request,
             Model model){
         model.addAttribute("title",title);
@@ -48,18 +59,7 @@ public class PublishController {
             model.addAttribute("error","标签不能为空");
             return "publish";
         }
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                user = userMapper.findByToken(token);
-                if (user != null) {
-                    request.getSession().setAttribute("user",user);
-                }
-                break;
-            }
-        }
+        User user = (User)request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error","用户未登陆");
             return "publish";
@@ -69,9 +69,8 @@ public class PublishController {
         question.setTag(tag);
         question.setDescription(description);
         question.setCreator(user.getId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
-        questionMapper.create(question);
+        question.setId(id);
+        questionService.createOrUpdate(question);
         return "redirect:/";
     }
 }

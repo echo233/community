@@ -1,5 +1,6 @@
 package life.echo.community.dto;
 
+import life.echo.community.model.Question;
 import life.echo.community.model.User;
 import lombok.Data;
 
