@@ -11,7 +11,10 @@
 [git](https://git-scm.com/downloads)
 [flyway](https://flywaydb.org/getstarted/firststeps/maven#creating-the-first-migration)
 [lombak](https://projectlombok.org/)
+chenhao0614
+WXbg0660
 ```bash
+
 mvn flyway:migrate
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```

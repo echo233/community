@@ -23,7 +23,7 @@ public class PublishController {
     @Autowired
     private QuestionService questionService;
     @GetMapping("/publish/{id}")
-    public String publish(@PathVariable(name = "id") Integer id, Model model) {
+    public String publish(@PathVariable(name = "id") Long id, Model model) {
         QuestionDTO question = questionService.getById(id);
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
@@ -32,7 +32,7 @@ public class PublishController {
         return "publish";
     }
 
-    @GetMapping("/publish")
+        @GetMapping("/publish")
     public String publish() {
         return "publish";
     }
@@ -41,7 +41,7 @@ public class PublishController {
             @RequestParam(value = "title", required=false) String title,
             @RequestParam(value = "description", required=false) String description,
             @RequestParam(value = "tag", required=false) String tag,
-            @RequestParam(value = "id", required = false)Integer id,
+            @RequestParam(value = "id", required = false)Long id,
             HttpServletRequest request,
             Model model){
         model.addAttribute("title",title);
