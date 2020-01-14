@@ -3,6 +3,7 @@ package life.echo.community.controller;
 import life.echo.community.dto.PaginationDTO;
 import life.echo.community.mapper.UserMapper;
 import life.echo.community.model.User;
+import life.echo.community.service.NotificationService;
 import life.echo.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ProfileController {
     @Autowired
-    private UserMapper userMapper;
+    private NotificationService notificationService;
     @Autowired
     private QuestionService questionService;
 
@@ -26,19 +27,21 @@ public class ProfileController {
                           @RequestParam(name="page",defaultValue = "1")Integer page,
                           @RequestParam(name="size",defaultValue = "5")Integer size){
         User user = (User)request.getSession().getAttribute("user");
-        System.out.println(user.getId());
         if (user == null) {
             return "redirect:/";
         }
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+            PaginationDTO pagination = questionService.listByUserId(user.getId(), page, size);
+            model.addAttribute("pagination", pagination);
         } else if ("replies".equals(action)) {
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
             model.addAttribute("section", "replies");
+            model.addAttribute("pagination", paginationDTO);
             model.addAttribute("sectionName", "最新回复");
         }
-        PaginationDTO pagination = questionService.listByUserId(user.getId(), page, size);
-        model.addAttribute("pagination", pagination);
+
         return "profile";
     }
 }

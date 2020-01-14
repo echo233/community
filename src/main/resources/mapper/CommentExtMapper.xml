@@ -18,7 +18,7 @@
     <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
   </resultMap>
   <update id="incCommentCount" parameterType="life.echo.community.model.Comment">
-    update COMMENT SET COMMENT_COUNT = COMMENT_COUNT + #{commentCount, jdbcType=INTEGER}
+    update  COMMENT SET COMMENT_COUNT = COMMENT_COUNT + #{commentCount, jdbcType=INTEGER}
     WHERE ID = #{id}
   </update>
 </mapper>

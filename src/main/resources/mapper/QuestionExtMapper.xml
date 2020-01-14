@@ -20,4 +20,7 @@
     update QUESTION SET COMMENT_COUNT = COMMENT_COUNT + #{commentCount, jdbcType=INTEGER}
     WHERE ID = #{id}
   </update>
+  <select id="selectRelated" parameterType="life.echo.community.model.Question" resultMap="BaseResultMap">
+    select * from QUESTION where id != #{id} and tag regexp #{tag}
+  </select>
 </mapper>

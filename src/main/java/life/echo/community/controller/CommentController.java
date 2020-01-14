@@ -38,7 +38,8 @@ public class CommentController {
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());
-        commentService.insert(comment);
+        comment.setCommentCount(0);
+        commentService.insert(comment,user);
         return ResultDTO.okOf();
     }
     @ResponseBody

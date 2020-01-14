@@ -7,12 +7,12 @@
 [bootstrap](https://v3.bootcss.com/getting-started)
 [githubOauth](https://developer.github.com/apps/building-oauth-apps/)
 [spring 内嵌database](https://docs.spring.io/spring-boot/docs/2.0.x/reference/htmlsingle/#boot-features-embedded-database-support)
+[markdown](https://github.com/pandao/editor.md)
 ## 工具
 [git](https://git-scm.com/downloads)
 [flyway](https://flywaydb.org/getstarted/firststeps/maven#creating-the-first-migration)
 [lombak](https://projectlombok.org/)
-chenhao0614
-WXbg0660
+
 ```bash
 
 mvn flyway:migrate
