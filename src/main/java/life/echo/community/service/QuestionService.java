@@ -2,6 +2,7 @@ package life.echo.community.service;
 
 import life.echo.community.dto.PaginationDTO;
 import life.echo.community.dto.QuestionDTO;
+import life.echo.community.dto.QuestionQueryDTO;
 import life.echo.community.exception.CustomizeErrorCode;
 import life.echo.community.exception.CustomizeException;
 import life.echo.community.mapper.QuestionExtMapper;
@@ -30,9 +31,16 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search," ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         Integer totalPage;
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -47,9 +55,9 @@ public class QuestionService {
         }
         paginationDTO.setPagination(totalPage, page);
         Integer offset = size * (page - 1);
-        QuestionExample example = new QuestionExample();
-        example.setOrderByClause("gmt_create desc");
-        List<Question> list = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> list = questionExtMapper.selectBySearch(questionQueryDTO);
 
         List<QuestionDTO> questionDTOS = new ArrayList<>();
 
